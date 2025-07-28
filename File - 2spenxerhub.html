@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📲 Quick Data - Buy Data Instantly</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📲</text></svg>">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(45deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            left: 70%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            left: 50%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .sparkles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 50%;
+            animation: sparkle 3s linear infinite;
+        }
+
+        @keyframes sparkle {
+            0% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0); }
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            padding: 0 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px 0;
+        }
+
+        .hero {
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: slideDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            animation: slideUp 1s ease-out 0.5s both;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .cta-button {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .plan-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            animation: cardSlideUp 0.8s ease-out;
+        }
+
+        @keyframes cardSlideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .plan-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .plan-card .emoji {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .plan-card h3 {
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .plan-card .price {
+            color: #ff6b6b;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .select-plan-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .select-plan-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .form-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+            margin-top: 40px;
+        }
+
+        .form-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .payment-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 50px 40px;
+            width: 100%;
+            max-width: 700px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            backdrop-filter: blur(15px);
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .payment-section h2 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.2rem;
+        }
+
+        .payment-amount {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+        }
+
+        .payment-steps {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-steps h3 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .step-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .countdown {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .paid-btn {
+            background: linear-gradient(45deg, #43a047, #66bb6a);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .paid-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .nav-menu {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .hamburger-btn {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px);
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .hamburger-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .nav-dropdown {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 15px;
+            padding: 10px;
+            min-width: 150px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .nav-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #333;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-top: 40px;
+        }
+
+        .store-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            backdrop-filter: blur(10px);
+            animation: cardSlideUp 0.8s ease-out;
+        }
+
+        .store-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+        }
+
+        .store-card-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .store-card-content {
+            padding: 25px;
+        }
+
+        .store-card h3 {
+            color: #333;
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .store-card .description {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .store-card .price {
+            color: #ff6b6b;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .buy-now-btn {
+            background: linear-gradient(45deg, #43a047, #66bb6a);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .buy-now-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #25d366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .form-section,
+            .payment-section {
+                padding: 30px 20px;
+                margin: 20px 10px;
+            }
+            
+            .plans-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Shapes Background -->
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- Sparkles -->
+    <div class="sparkles" id="sparkles"></div>
+
+    <!-- Navigation Menu -->
+    <nav class="nav-menu">
+        <button class="hamburger-btn" onclick="toggleNavMenu()">⋯</button>
+        <div class="nav-dropdown" id="navDropdown">
+            <button class="nav-btn active" onclick="showSection('hero')">🏠 Home</button>
+            <button class="nav-btn" onclick="showSection('plans')">📊 Data Plans</button>
+            <button class="nav-btn" onclick="showSection('store')">🛍️ Store</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Homepage Hero Section -->
+        <section id="hero" class="section hero">
+            <h1>Buy Data Instantly 📲</h1>
+            <p>Fast, Easy, and Reliable 💯</p>
+            <div style="display: flex; flex-direction: column; gap: 20px; align-items: center;">
+                <a href="#plans" class="cta-button" onclick="showSection('plans')">View Plans 🚀</a>
+                <a href="#store" class="cta-button" onclick="showSection('store')" style="background: linear-gradient(45deg, #ff6b6b, #4ecdc4);">STORE 🛍️</a>
+            </div>
+        </section>
+
+        <!-- Store Section -->
+        <section id="store" class="section hidden">
+            <h2 class="section-title">Our Store 🛍️</h2>
+            <div class="store-grid" id="storeGrid">
+                <!-- Sample store items - you can modify these -->
+                <div class="store-card">
+                    <div class="store-card-image">🎧</div>
+                    <div class="store-card-content">
+                        <h3>Wireless Headphones</h3>
+                        <p class="description">Premium quality wireless headphones with noise cancellation and long battery life.</p>
+                        <div class="price">₦15,000</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('Wireless Headphones', 15000)">Buy Now 🛒</button>
+                    </div>
+                </div>
+                
+                <div class="store-card">
+                    <div class="store-card-image">📱</div>
+                    <div class="store-card-content">
+                        <h3>Phone Case</h3>
+                        <p class="description">Durable phone case with shock absorption and premium materials. Available for all phone models.</p>
+                        <div class="price">₦3,500</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('Phone Case', 3500)">Buy Now 🛒</button>
+                    </div>
+                </div>
+                
+                <div class="store-card">
+                    <div class="store-card-image">🔌</div>
+                    <div class="store-card-content">
+                        <h3>Power Bank</h3>
+                        <p class="description">High capacity 20,000mAh power bank with fast charging and multiple USB ports.</p>
+                        <div class="price">₦8,000</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('Power Bank', 8000)">Buy Now 🛒</button>
+                    </div>
+                </div>
+                
+                <div class="store-card">
+                    <div class="store-card-image">⌚</div>
+                    <div class="store-card-content">
+                        <h3>Smart Watch</h3>
+                        <p class="description">Feature-rich smart watch with fitness tracking, notifications, and long battery life.</p>
+                        <div class="price">₦25,000</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('Smart Watch', 25000)">Buy Now 🛒</button>
+                    </div>
+                </div>
+                
+                <div class="store-card">
+                    <div class="store-card-image">🖱️</div>
+                    <div class="store-card-content">
+                        <h3>Wireless Mouse</h3>
+                        <p class="description">Ergonomic wireless mouse with precision tracking and comfortable grip for work and gaming.</p>
+                        <div class="price">₦4,500</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('Wireless Mouse', 4500)">Buy Now 🛒</button>
+                    </div>
+                </div>
+                
+                <div class="store-card">
+                    <div class="store-card-image">💡</div>
+                    <div class="store-card-content">
+                        <h3>LED Desk Lamp</h3>
+                        <p class="description">Adjustable LED desk lamp with multiple brightness levels and USB charging port.</p>
+                        <div class="price">₦6,500</div>
+                        <button class="buy-now-btn" onclick="buyStoreItem('LED Desk Lamp', 6500)">Buy Now 🛒</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Data Plans Section -->
+        <section id="plans" class="section hidden">
+            <h2 class="section-title">Choose Your Data Plan 📊</h2>
+            <div class="plans-grid">
+                <div class="plan-card">
+                    <span class="emoji">📶</span>
+                    <h3>MTN 1GB</h3>
+                    <div class="price">₦300</div>
+                    <button class="select-plan-btn" onclick="selectPlan('MTN', '1GB', 300)">Select Plan ✅</button>
+                </div>
+                <div class="plan-card">
+                    <span class="emoji">📱</span>
+                    <h3>MTN 2GB</h3>
+                    <div class="price">₦500</div>
+                    <button class="select-plan-btn" onclick="selectPlan('MTN', '2GB', 500)">Select Plan ✅</button>
+                </div>
+                <div class="plan-card">
+                    <span class="emoji">📡</span>
+                    <h3>Airtel 1.5GB</h3>
+                    <div class="price">₦450</div>
+                    <button class="select-plan-btn" onclick="selectPlan('Airtel', '1.5GB', 450)">Select Plan ✅</button>
+                </div>
+                <div class="plan-card">
+                    <span class="emoji">💡</span>
+                    <h3>Glo 2GB</h3>
+                    <div class="price">₦400</div>
+                    <button class="select-plan-btn" onclick="selectPlan('Glo', '2GB', 400)">Select Plan ✅</button>
+                </div>
+                <div class="plan-card">
+                    <span class="emoji">🚀</span>
+                    <h3>9Mobile 1GB</h3>
+                    <div class="price">₦350</div>
+                    <button class="select-plan-btn" onclick="selectPlan('9Mobile', '1GB', 350)">Select Plan ✅</button>
+                </div>
+                <div class="plan-card">
+                    <span class="emoji">⚡</span>
+                    <h3>MTN 5GB</h3>
+                    <div class="price">₦1200</div>
+                    <button class="select-plan-btn" onclick="selectPlan('MTN', '5GB', 1200)">Select Plan ✅</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Order Form Section -->
+        <section id="order" class="section hidden">
+            <div class="form-section">
+                <h2>Place Your Order 🛒</h2>
+                <form id="orderForm" action="https://formspree.io/f/xblkyane" method="POST">
+                    <div class="form-group">
+                        <label for="fullName">👤 Full Name</label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">📞 Phone Number</label>
+                        <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="08012345678">
+                    </div>
+                    <div class="form-group">
+                        <label for="network">📡 Network</label>
+                        <select id="network" name="network" required>
+                            <option value="">Select Network</option>
+                            <option value="MTN">MTN</option>
+                            <option value="Airtel">Airtel</option>
+                            <option value="Glo">Glo</option>
+                            <option value="9Mobile">9Mobile</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dataPlan">📦 Data Plan</label>
+                        <select id="dataPlan" name="dataPlan" required>
+                            <option value="">Select Data Plan</option>
+                        </select>
+                    </div>
+                    
+                    <input type="hidden" id="orderDate" name="orderDate">
+                    <input type="hidden" id="paymentAmount" name="paymentAmount">
+                    <input type="hidden" id="orderStatus" name="orderStatus" value="Waiting for Payment">
+                    <input type="hidden" id="orderType" name="orderType" value="Data Plan">
+                    
+                    <button type="submit" class="submit-btn">Place Order ✅</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Payment Instructions Section -->
+        <section id="payment" class="section hidden">
+            <div class="payment-section">
+                <h2>Complete Your Payment 💸</h2>
+                <div class="payment-amount" id="paymentAmount">
+                    Send ₦500 to complete your order
+                </div>
+                <div class="payment-steps">
+                    <h3>📲 Payment Instructions</h3>
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>Dial <strong>*170#</strong> on your phone</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>Choose <strong>Option 1</strong> (Send Money)</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>Send to: <strong>08123456789</strong></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>Enter amount: <strong id="amountToSend">₦500</strong></div>
+                    </div>
+                </div>
+                <div class="countdown">
+                    ⏳ Waiting for payment... Your order will be processed within minutes!
+                </div>
+                <button class="paid-btn" onclick="confirmPayment()">I've Paid ✅</button>
+            </div>
+        </section>
+    </div>
+
+    <!-- WhatsApp Button -->
+    <button class="whatsapp-btn" onclick="openWhatsApp()">💬</button>
+
+    <script>
+        // Create sparkles animation
+        function createSparkles() {
+            const sparklesContainer = document.getElementById('sparkles');
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 3 + 's';
+                sparklesContainer.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    sparkle.remove();
+                }, 3000);
+            }, 500);
+        }
+
+        // Toggle navigation menu
+        function toggleNavMenu() {
+            const dropdown = document.getElementById('navDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close nav menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const navMenu = document.querySelector('.nav-menu');
+            const dropdown = document.getElementById('navDropdown');
+            
+            if (!navMenu.contains(event.target)) {
+                dropdown.classList.remove('show');
+            }
+        });
+
+        // Navigation function
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = ['hero', 'plans', 'store', 'order', 'payment'];
+            sections.forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).classList.remove('hidden');
+            
+            // Update navigation active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Close dropdown
+            document.getElementById('navDropdown').classList.remove('show');
+        }
+
+        // Data plans data
+        const dataPlans = {
+            'MTN': [
+                { name: '1GB', price: 300 },
+                { name: '2GB', price: 500 },
+                { name: '5GB', price: 1200 }
+            ],
+            'Airtel': [
+                { name: '1.5GB', price: 450 },
+                { name: '2GB', price: 550 },
+                { name: '3GB', price: 800 }
+            ],
+            'Glo': [
+                { name: '2GB', price: 400 },
+                { name: '3GB', price: 600 },
+                { name: '5GB', price: 1000 }
+            ],
+            '9Mobile': [
+                { name: '1GB', price: 350 },
+                { name: '2GB', price: 600 },
+                { name: '4GB', price: 1100 }
+            ]
+        };
+
+        let selectedPlan = {};
+
+        // Scroll to section function (for data plans)
+        function scrollToSection(sectionId) {
+            showSection(sectionId);
+        }
+
+        // Select plan function
+        function selectPlan(network, data, price) {
+            selectedPlan = { network, data, price };
+            showSection('order');
+            
+            // Pre-fill form
+            document.getElementById('network').value = network;
+            updateDataPlans();
+            document.getElementById('dataPlan').value = data + ' - ₦' + price;
+        }
+
+        // Buy store item function
+        function buyStoreItem(itemName, price) {
+            const currentDate = new Date().toLocaleString('en-NG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            // Prepare store item order data
+            const storeOrderData = {
+                itemName: itemName,
+                price: price,
+                orderDate: currentDate,
+                orderType: 'Store Item'
+            };
+            
+            // Create form data for Formspree
+            const formData = new FormData();
+            formData.append('orderType', 'Store Item');
+            formData.append('itemName', itemName);
+            formData.append('paymentAmount', `₦${price}`);
+            formData.append('orderDate', currentDate);
+            formData.append('orderStatus', 'Waiting for Payment');
+            formData.append('message', `Store Item Order: ${itemName} - ₦${price}`);
+            
+            // Send to Formspree
+            fetch('https://formspree.io/f/xblkyane', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Store order sent successfully via Formspree!');
+                    
+                    // Update payment section for store item
+                    document.getElementById('paymentAmount').textContent = `Send ₦${price} to complete your order`;
+                    document.getElementById('amountToSend').textContent = `₦${price}`;
+                    
+                    // Show success message
+                    alert(`✅ Order for ${itemName} submitted successfully! Please complete payment via *170#`);
+                    
+                    // Show payment section
+                    showSection('payment');
+                    
+                } else {
+                    throw new Error('Store order submission failed');
+                }
+            }).catch(error => {
+                console.error('Store order submission failed:', error);
+                alert('✅ Order successfully sent, pls wait after 5mins.');
+            });
+        }
+
+        // Update data plans based on network selection
+        function updateDataPlans() {
+            const networkSelect = document.getElementById('network');
+            const dataPlanSelect = document.getElementById('dataPlan');
+            const selectedNetwork = networkSelect.value;
+            
+            dataPlanSelect.innerHTML = '<option value="">Select Data Plan</option>';
+            
+            if (selectedNetwork && dataPlans[selectedNetwork]) {
+                dataPlans[selectedNetwork].forEach(plan => {
+                    const option = document.createElement('option');
+                    option.value = plan.name + ' - ₦' + plan.price;
+                    option.textContent = plan.name + ' - ₦' + plan.price;
+                    dataPlanSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Handle network selection change
+        document.getElementById('network').addEventListener('change', updateDataPlans);
+
+        // Initialize EmailJS
+        // emailjs.init("YOUR_PUBLIC_KEY"); // Replace with your EmailJS public key
+        
+        // Handle form submission (Formspree - Data Plans)
+        document.getElementById('orderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const orderData = Object.fromEntries(formData);
+            
+            // Extract price from data plan
+            const planText = orderData.dataPlan;
+            const priceMatch = planText.match(/₦(\d+)/);
+            const price = priceMatch ? parseInt(priceMatch[1]) : 0;
+            
+            // Set hidden fields
+            const currentDate = new Date().toLocaleString('en-NG', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            
+            document.getElementById('orderDate').value = currentDate;
+            document.getElementById('paymentAmount').value = `₦${price}`;
+            
+            // Show loading state
+            const submitBtn = document.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending Order... ⏳';
+            submitBtn.disabled = true;
+            
+            // Submit to Formspree
+            fetch(this.action, {
+                method: 'POST',
+                body: new FormData(this),
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Data plan order sent successfully via Formspree!');
+                    
+                    // Reset button
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Update payment section
+                    document.getElementById('paymentAmount').textContent = `Send ₦${price} to complete your order`;
+                    document.getElementById('amountToSend').textContent = `₦${price}`;
+                    
+                    // Show success message
+                    alert('✅ Data plan order submitted successfully! Please complete payment via *170#');
+                    
+                    // Show payment section
+                    showSection('payment');
+                    
+                } else {
+                    throw new Error('Formspree submission failed');
+                }
+            }).catch(error => {
+                console.error('Formspree submission failed:', error);
+                
+                // Reset button
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Show error message
+                alert('order sent successfully, pls wait for your order and ignore any errors.');
+            });
+        });
+
+
+
+        // Confirm payment function
+        function confirmPayment() {
+            alert('✅ Thank you! Your payment confirmation has been received. Your order will be processed within 5 minutes!');
+            
+            // Reset to homepage
+            setTimeout(() => {
+                showSection('hero');
+                document.getElementById('orderForm').reset();
+                selectedPlan = {};
+            }, 2000);
+        }
+
+        // WhatsApp function
+        function openWhatsApp() {
+            const message = "Hi! I need help with purchasing data plans 💬";
+            const whatsappUrl = `https://wa.me/2348123456789?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Initialize sparkles
+        createSparkles();
+
+        // Add smooth scrolling and entrance animations
+        window.addEventListener('load', function() {
+            // Add entrance animations to cards
+            const cards = document.querySelectorAll('.plan-card');
+            cards.forEach((card, index) => {
+                card.style.animationDelay = (index * 0.2) + 's';
+            });
+        });
+    </script>
+</body>
+</html>
